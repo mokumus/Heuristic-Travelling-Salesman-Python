@@ -1,9 +1,6 @@
 import tsplib95
+
 import utils
-
-
-
-
 
 
 def main():

@@ -1,6 +1,8 @@
-import matplotlib.pyplot as plt
-import random
 import copy
+import random
+
+import matplotlib.pyplot as plt
+
 
 def random_permutation(array_like):
 	perm = copy.deepcopy(array_like)
@@ -10,7 +12,9 @@ def random_permutation(array_like):
 		perm[ri1], perm[ri2] = perm[ri2], perm[ri1]
 	return perm
 
+
 def plot_tsp(path, points):
+	# Modified from https://gist.github.com/payoung/6087046
 	x = []
 	y = []
 	for i in range(0, len(points)):
