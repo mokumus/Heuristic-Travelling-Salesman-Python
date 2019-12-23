@@ -12,14 +12,12 @@ def random_permutation(array_like):
 		perm[ri1], perm[ri2] = perm[ri2], perm[ri1]
 	return perm
 
-
 def cost(path, problem):
 	cities = problem.node_coords
 	total_cost = 0
 	for i in range(0, len(path) - 1):
 		total_cost += problem.wfunc(path[i], path[i + 1])
 	return total_cost
-
 
 def plot_tsp(path, problem):
 	# Modified from https://gist.github.com/payoung/6087046
