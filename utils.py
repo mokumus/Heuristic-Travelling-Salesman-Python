@@ -12,7 +12,6 @@ def random_permutation(array_like):
 		perm[ri1], perm[ri2] = perm[ri2], perm[ri1]
 	return perm
 
-
 def plot_tsp(path, points):
 	# Modified from https://gist.github.com/payoung/6087046
 	x = []
