@@ -12,13 +12,26 @@ def random_permutation(array_like):
 		perm[ri1], perm[ri2] = perm[ri2], perm[ri1]
 	return perm
 
-def plot_tsp(path, points):
+
+def cost(path, problem):
+	cities = problem.node_coords
+	total_cost = 0
+	for i in range(0, len(path) - 1):
+		total_cost += problem.wfunc(path[i], path[i + 1])
+	return total_cost
+
+
+def plot_tsp(path, problem):
 	# Modified from https://gist.github.com/payoung/6087046
+	cities = []
 	x = []
 	y = []
-	for i in range(0, len(points)):
-		x.append(points[i][0])
-		y.append(points[i][1])
+	for i in range(1, problem.dimension + 1):
+		cities.append(problem.node_coords[i])
+
+	for i in range(0, len(cities)):
+		x.append(cities[i][0])
+		y.append(cities[i][1])
 
 	plt.plot(x, y, 'co')
 
@@ -28,8 +41,8 @@ def plot_tsp(path, points):
 	xi = []
 	yi = []
 	for j in path:
-		xi.append(points[j-1][0])
-		yi.append(points[j-1][1])
+		xi.append(cities[j - 1][0])
+		yi.append(cities[j - 1][1])
 
 	plt.arrow(xi[-1], yi[-1], (xi[0] - xi[-1]), (yi[0] - yi[-1]), head_width=a_scale, color='r', length_includes_head=True)
 	for i in range(0, len(x) - 1):
