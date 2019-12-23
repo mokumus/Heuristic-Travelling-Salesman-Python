@@ -1,7 +1,5 @@
 import tsplib95
-
 import utils
-
 
 def main():
 	problem = tsplib95.load_problem('problems/berlin52.tsp')

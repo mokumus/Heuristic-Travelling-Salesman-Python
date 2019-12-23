@@ -1,8 +1,6 @@
 import copy
 import random
-
 import matplotlib.pyplot as plt
-
 
 def random_permutation(array_like):
 	perm = copy.deepcopy(array_like)
