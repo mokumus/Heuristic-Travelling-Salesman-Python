@@ -70,5 +70,5 @@ def snapshot_timer(best_cost, best_path, problem, start):
 if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
 	problem.best_known = 7560
-	search(problem, 12, 10, 65)
+	search(problem, neighborhoods=12, max_no_improv=10, max_no_improv_ls=65)
 
