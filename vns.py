@@ -117,10 +117,18 @@ if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
 	problem.best_known = 7544.3659
 
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
+"""	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
 	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=40, pp=False, pes=False)
 	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=60, pp=False, pes=False)
 
 	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
 	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=20, mnils=20, pp=False, pes=False)
 	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=40, mnils=20, pp=False, pes=False)
+
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=12, mni=40, mnils=30, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=24, mni=40, mnils=40, pp=False, pes=False)
+	
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=20, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=30, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=40, pp=False, pes=False)"""
