@@ -5,6 +5,7 @@ import random
 import csv
 from timeit import default_timer as timer
 from datetime import timedelta
+from datetime import datetime
 
 ## Reverse path between two random points
 def stochastic_two_opt(path):
@@ -82,7 +83,11 @@ def snapshot_timer(best_cost, best_path, problem, start):
 
 
 def test_berlin52(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
-	with open(file_name, 'a', newline='') as file:
+	file_path = "results/"
+	file_path +=file_name
+	file_path += "_{}".format(datetime.now().strftime("%H_%M_%S"))
+	file_path += ".csv"
+	with open(file_path, 'a', newline='') as file:
 		writer = csv.writer(file)
 		writer.writerow(["NEIGHBORHOODS:    {}".format(n)])
 		writer.writerow(["MAX_NO_IMPROV:    {}".format(mni)])
@@ -96,6 +101,6 @@ def test_berlin52(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, p
 
 if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
-	problem.best_known = 7560
+	problem.best_known = 7544.3659
 
-	test_berlin52(file_name='results/berlin52_sol.csv', number_of_runs=1, mnils=10, pp=False, pes=False)
+	test_berlin52(file_name='berlin52_sol', number_of_runs=20, mnils=10, pp=False, pes=False)
