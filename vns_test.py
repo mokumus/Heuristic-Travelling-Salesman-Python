@@ -3,7 +3,7 @@ import csv
 import tsplib95
 from datetime import datetime
 
-def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
+def test_vns(file_name, problem, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
 	info = [0,float('inf'),0,0,float('inf')]
 	file_path = "results/"
 	file_path +=file_name
@@ -31,24 +31,28 @@ def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=Fal
 		writer.writerow(["MIN_ERR ",  info[4]])
 		writer.writerow(["AVG_ERR ", info[3]/number_of_runs])
 
-def run_tests(file_name):
-	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=40, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=60, pp=False, pes=False)
+def run_tests(file_name, p):
+	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=40, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=60, pp=False, pes=False, problem=p)
 
-	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, mni=20, mnils=20, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, mni=40, mnils=20, pp=False, pes=False)
+	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, mni=20, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, mni=40, mnils=20, pp=False, pes=False, problem=p)
 
-	test_vns(file_name=file_name, number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, n=12, mni=40, mnils=30, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, n=24, mni=40, mnils=40, pp=False, pes=False)
+	test_vns(file_name=file_name, number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, n=12, mni=40, mnils=30, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, n=24, mni=40, mnils=40, pp=False, pes=False, problem=p)
 
-	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=20, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=30, pp=False, pes=False)
-	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=40, pp=False, pes=False)
+	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=30, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, n=15, mni=40, mnils=40, pp=False, pes=False, problem=p)
 
 if __name__ == '__main__':
-	problem = tsplib95.load_problem('problems/berlin52.tsp')
-	problem.best_known = 7544.3659
-	run_tests(file_name="berlin52_sol")
+	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
+	problem_berlin52.best_known = 7544.3659
+	#run_tests(file_name="berlin52_sol", p=problem_berlin52)
+
+	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
+	problem_kroA100.best_known = 21282.0
+	run_tests(file_name="kroA100_sol", p=problem_kroA100)
