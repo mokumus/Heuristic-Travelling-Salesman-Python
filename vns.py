@@ -40,8 +40,10 @@ def search(problem, neighborhoods, max_no_improv, max_no_improv_ls):
 	title = "Cost: {}, Time: {}, Err: %{:.4f}".format(best_cost, 0.0, utils.error_rate(problem.best_known, best_cost))
 	utils.plot_tsp(best_path, problem, title)
 	start = timer()
-
+	print("Initial cost: {}".format(best_cost))
+	print("VNS: ", end="")
 	while count <= max_no_improv:
+		print("#", end="")
 		count += 1
 		candidate_path = copy.deepcopy(best_path)
 		for i in range(0, neighborhoods): # Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
@@ -56,6 +58,9 @@ def search(problem, neighborhoods, max_no_improv, max_no_improv_ls):
 				snapshot_timer(best_cost, best_path, problem, start)
 				break
 	snapshot_timer(best_cost, best_path, problem, start)
+	print("\nMinimized cost: {}".format(best_cost))
+	print("Err: %{:.4f}".format(utils.error_rate(problem.best_known, best_cost)))
+	print("Path: {}".format(best_path))
 	return best_path
 
 ## pseudo real-time plotting wrapper for search method
