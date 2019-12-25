@@ -2,10 +2,8 @@ import copy
 import utils
 import tsplib95
 import random
-import csv
 from timeit import default_timer as timer
 from datetime import timedelta
-from datetime import datetime
 
 ## Reverse path between two random points
 def stochastic_two_opt(path):
@@ -26,16 +24,17 @@ def local_search(problem, best_path , max_no_improv, neighborhood):
 	while count <= max_no_improv:
 		count += 1
 		candidate_path = copy.deepcopy(best_path)
-		for i in range(0, neighborhood): 							# Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
+		for i in range(0, neighborhood):						# Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
 			candidate_path = stochastic_two_opt(candidate_path)
-		candidate_cost = utils.cost(candidate_path, problem)	 	# Calculate candidate cost after generating neighbour
+		candidate_cost = utils.cost(candidate_path, problem)	# Calculate candidate cost after generating neighbour
 		if candidate_cost < utils.cost(best_path, problem):
 			count = 0
 			best_path = candidate_path
 	return best_path
 
 ## Perform VSN on the given problem
-def search(problem, neighborhoods, max_no_improv, max_no_improv_ls, plot_progress = False, plot_end_start = False):
+## Default values are determined by testing on berlin52 data set
+def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress = False, plot_end_start = False):
 	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)]) # Create a random solution of problem size(number of cities)
 	best_cost = utils.cost(best_path, problem)
 	initial_cost = best_cost
@@ -47,7 +46,7 @@ def search(problem, neighborhoods, max_no_improv, max_no_improv_ls, plot_progres
 	print("Initial cost: {}".format(best_cost))
 	print("VNS: ", end="")
 	while count <= max_no_improv:
-		print("#", end="")
+		print("#", end="") #Search progress
 		count += 1
 		candidate_path = copy.deepcopy(best_path)
 		for i in range(0, neighborhoods): # Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
@@ -84,50 +83,9 @@ def snapshot_timer(best_cost, best_path, problem, start):
 	utils.plot_tsp(best_path, problem, title)
 
 
-def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
-	info = [0,float('inf'),0,0,float('inf')]
-	file_path = "results/"
-	file_path +=file_name
-	file_path += ".csv"
-	with open(file_path, 'a', newline='') as file:
-		writer = csv.writer(file)
-		writer.writerow(["NEIGHBORHOODS   ", n])
-		writer.writerow(["MAX_NO_IMPROV   ", mni])
-		writer.writerow(["MAX_NO_IMPROV_LS", mnils])
-		writer.writerow(["NUMBER OF RUNS  ", number_of_runs])
-		writer.writerow(["Time", "Initial Cost","Minimized Cost", "Error Rate"])
-		for i in range(0, number_of_runs):
-			_ , csv_str = search(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
-			tmp = csv_str.split()
-			info[0] += float(tmp[0])				#AVG_TIME
-			info[1] =  min(float(tmp[2]),info[1])	#AVG_COST
-			info[2] += float(tmp[2])				#TOTAL_COST
-			info[3] += float(tmp[3])				#TOTAL_ERR
-			info[4] =  min(float(tmp[3]),info[4]) 	#MIN_ERR
-			writer.writerow(csv_str.split(" "))
-		writer.writerow(["AVG TIME", info[0]/number_of_runs])
-		writer.writerow(["MIN_COST", info[1]])
-		writer.writerow(["AVG_COST", info[2]/number_of_runs])
-		writer.writerow(["MIN_ERR ",  info[4]])
-		writer.writerow(["AVG_ERR ", info[3]/number_of_runs])
-
-
 if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
 	problem.best_known = 7544.3659
+	search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=False, plot_end_start=False)
 
-"""	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=40, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=60, pp=False, pes=False)
 
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=20, mnils=20, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=40, mnils=20, pp=False, pes=False)
-
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=12, mni=40, mnils=30, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=24, mni=40, mnils=40, pp=False, pes=False)
-	
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=20, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=30, pp=False, pes=False)
-	test_vns(file_name='berlin52_sol', number_of_runs=20, n=15, mni=40, mnils=40, pp=False, pes=False)"""
