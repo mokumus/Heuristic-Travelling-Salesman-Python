@@ -98,4 +98,4 @@ if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
 	problem.best_known = 7560
 
-	test_berlin52(file_name='berlin52_sol.csv', number_of_runs=20, mnils=10, pp=False, pes=False)
+	test_berlin52(file_name='results/berlin52_sol.csv', number_of_runs=1, mnils=10, pp=False, pes=False)
