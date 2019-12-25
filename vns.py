@@ -88,14 +88,13 @@ def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=Fal
 	info = [0,float('inf'),0,0,float('inf')]
 	file_path = "results/"
 	file_path +=file_name
-	file_path += "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p"))
 	file_path += ".csv"
 	with open(file_path, 'a', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow(["NEIGHBORHOODS:    {}".format(n)])
-		writer.writerow(["MAX_NO_IMPROV:    {}".format(mni)])
-		writer.writerow(["MAX_NO_IMPROV_LS: {}".format(mnils)])
-		writer.writerow(["NUMBER OF RUNS:   {}".format(number_of_runs)])
+		writer.writerow(["NEIGHBORHOODS   ", n])
+		writer.writerow(["MAX_NO_IMPROV   ", mni])
+		writer.writerow(["MAX_NO_IMPROV_LS", mnils])
+		writer.writerow(["NUMBER OF RUNS  ", number_of_runs])
 		writer.writerow(["Time", "Initial Cost","Minimized Cost", "Error Rate"])
 		for i in range(0, number_of_runs):
 			_ , csv_str = search(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
@@ -106,11 +105,11 @@ def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=Fal
 			info[3] += float(tmp[3])				#TOTAL_ERR
 			info[4] =  min(float(tmp[3]),info[4]) 	#MIN_ERR
 			writer.writerow(csv_str.split(" "))
-		writer.writerow(["AVG TIME: {:.5f}".format(info[0]/number_of_runs)])
-		writer.writerow(["MIN_COST: {:.1f}".format(info[1])])
-		writer.writerow(["AVG_COST: {:.1f}".format(info[2]/number_of_runs)])
-		writer.writerow(["MIN_ERR: %{:.4f}".format(info[4])])
-		writer.writerow(["AVG_ERR: %{:.4f}".format(info[3]/number_of_runs)])
+		writer.writerow(["AVG TIME", info[0]/number_of_runs])
+		writer.writerow(["MIN_COST", info[1]])
+		writer.writerow(["AVG_COST", info[2]/number_of_runs])
+		writer.writerow(["MIN_ERR ",  info[4]])
+		writer.writerow(["AVG_ERR ", info[3]/number_of_runs])
 
 
 if __name__ == '__main__':
