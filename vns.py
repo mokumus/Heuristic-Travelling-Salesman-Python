@@ -70,6 +70,8 @@ def search(problem, neighborhoods, max_no_improv, max_no_improv_ls, plot_progres
 	print("Err: %{:.4f}".format(utils.error_rate(problem.best_known, best_cost)))
 	print("Time : {}".format(elapsedTime.total_seconds()))
 	print("Path: {}".format(best_path))
+	print("="*140)
+	print("="*140)
 	csv_log_str = "{:.5f} {:.1f} {:.1f} {:.4f}".format(elapsedTime.total_seconds(), initial_cost, best_cost,utils.error_rate(problem.best_known, best_cost))
 	return best_path, csv_log_str
 
@@ -82,10 +84,11 @@ def snapshot_timer(best_cost, best_path, problem, start):
 	utils.plot_tsp(best_path, problem, title)
 
 
-def test_berlin52(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
+def test_vns(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
+	info = [0,float('inf'),0,0,float('inf')]
 	file_path = "results/"
 	file_path +=file_name
-	file_path += "_{}".format(datetime.now().strftime("%H_%M_%S"))
+	file_path += "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p"))
 	file_path += ".csv"
 	with open(file_path, 'a', newline='') as file:
 		writer = csv.writer(file)
@@ -96,11 +99,28 @@ def test_berlin52(file_name, number_of_runs = 1, n = 12, mni = 10, mnils = 65, p
 		writer.writerow(["Time", "Initial Cost","Minimized Cost", "Error Rate"])
 		for i in range(0, number_of_runs):
 			_ , csv_str = search(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
-			writer.writerow(csv_str.split())
+			tmp = csv_str.split()
+			info[0] += float(tmp[0])				#AVG_TIME
+			info[1] =  min(float(tmp[2]),info[1])	#AVG_COST
+			info[2] += float(tmp[2])				#TOTAL_COST
+			info[3] += float(tmp[3])				#TOTAL_ERR
+			info[4] =  min(float(tmp[3]),info[4]) 	#MIN_ERR
+			writer.writerow(csv_str.split(" "))
+		writer.writerow(["AVG TIME: {:.5f}".format(info[0]/number_of_runs)])
+		writer.writerow(["MIN_COST: {:.1f}".format(info[1])])
+		writer.writerow(["AVG_COST: {:.1f}".format(info[2]/number_of_runs)])
+		writer.writerow(["MIN_ERR: %{:.4f}".format(info[4])])
+		writer.writerow(["AVG_ERR: %{:.4f}".format(info[3]/number_of_runs)])
 
 
 if __name__ == '__main__':
 	problem = tsplib95.load_problem('problems/berlin52.tsp')
 	problem.best_known = 7544.3659
 
-	test_berlin52(file_name='berlin52_sol', number_of_runs=20, mnils=10, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=40, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=60, pp=False, pes=False)
+
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=10, mnils=20, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=20, mnils=20, pp=False, pes=False)
+	test_vns(file_name='berlin52_sol', number_of_runs=20, mni=40, mnils=20, pp=False, pes=False)
