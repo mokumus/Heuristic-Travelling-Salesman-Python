@@ -11,11 +11,7 @@ def test_vns(file_name, problem, number_of_runs = 1, n = 12, mni = 10, mnils = 6
 	file_path += ".csv"
 	with open(file_path, 'a', newline='') as file:
 		writer = csv.writer(file)
-		writer.writerow(["NEIGHBORHOODS   ", n])
-		writer.writerow(["MAX_NO_IMPROV   ", mni])
-		writer.writerow(["MAX_NO_IMPROV_LS", mnils])
-		writer.writerow(["NUMBER OF RUNS  ", number_of_runs])
-		writer.writerow(["Time", "Initial Cost","Minimized Cost", "Error Rate"])
+		writer.writerow(["Time", "Initial Cost", "Minimized Cost", "Error Rate"])
 		for i in range(0, number_of_runs):
 			_ , csv_str = vns.search(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
 			tmp = csv_str.split()
@@ -25,11 +21,17 @@ def test_vns(file_name, problem, number_of_runs = 1, n = 12, mni = 10, mnils = 6
 			info[3] += float(tmp[3])				#TOTAL_ERR
 			info[4] =  min(float(tmp[3]),info[4]) 	#MIN_ERR
 			writer.writerow(csv_str.split(" "))
+
 		writer.writerow(["AVG TIME", info[0]/number_of_runs])
 		writer.writerow(["MIN_COST", info[1]])
 		writer.writerow(["AVG_COST", info[2]/number_of_runs])
 		writer.writerow(["MIN_ERR ",  info[4]])
 		writer.writerow(["AVG_ERR ", info[3]/number_of_runs])
+		writer.writerow(["NEIGHBORHOODS   ", n])
+		writer.writerow(["MAX_NO_IMPROV   ", mni])
+		writer.writerow(["MAX_NO_IMPROV_LS", mnils])
+
+
 
 def run_tests(file_name, p):
 	test_vns(file_name=file_name, number_of_runs=20, mni=10, mnils=20, pp=False, pes=False, problem=p)
@@ -40,7 +42,9 @@ def run_tests(file_name, p):
 	test_vns(file_name=file_name, number_of_runs=20, mni=20, mnils=20, pp=False, pes=False, problem=p)
 	test_vns(file_name=file_name, number_of_runs=20, mni=40, mnils=20, pp=False, pes=False, problem=p)
 
+	#Best scoring variables for berlin52, kroA100
 	test_vns(file_name=file_name, number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False, problem=p)
+
 	test_vns(file_name=file_name, number_of_runs=20, n=12, mni=40, mnils=30, pp=False, pes=False, problem=p)
 	test_vns(file_name=file_name, number_of_runs=20, n=24, mni=40, mnils=40, pp=False, pes=False, problem=p)
 
