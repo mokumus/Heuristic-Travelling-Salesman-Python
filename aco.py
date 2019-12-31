@@ -57,14 +57,39 @@ def global_update_pheromone(problem, pheromone_map, candidate_path, decay_amount
 		pheromone_map[edge_forward] = value
 		pheromone_map[edge_back]	= value
 
+def local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pher) :
+	for i in range(0,len(candidate_path)-1):
+		edge_forward = (candidate_path[i], candidate_path[i+1])
+		edge_back    = (candidate_path[i+1], candidate_path[i])
+		value = ((1.0 - c_local_pher) * pheromone_map[edge_forward]) + (c_local_pher * init_pher)
+		pheromone_map[edge_forward] = value
+		pheromone_map[edge_back]	= value
+
+def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
+	best_path = [*range(1, problem.dimension + 1, 1)]
+	best_cost = utils.cost(best_path,problem)
+	init_pheromone = 1.0 / (problem.dimension * best_cost)
+	pheromone_map = initialise_pheromones(problem, init_pheromone)
+	for _ in range(0, max_iters):
+		solutions = []
+		for _ in range(0, num_ants):
+			candidate_path = stepwise_const(problem,pheromone_map,c_heur,c_greed)
+			candidate_cost = utils.cost(candidate_path,problem)
+			if candidate_cost < best_cost:
+				best_path = candidate_path
+				best_cost = candidate_cost
+				local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
+		global_update_pheromone(problem,pheromone_map,candidate_path,decay_amount)
+	print(best_path)
+	print(best_cost)
+	return best_path
+
+
 if __name__ == '__main__':
-	problem = tsplib95.load_problem('problems/berlin52.tsp')
+	problem = tsplib95.load_problem('problems/kroA100.tsp')
 	problem.best_known = 7544.3659
-	pheromone_map = initialise_pheromones(problem, 3.0)
-	stepwise_const(problem, pheromone_map, 2.5, 0.9)
-	perm = utils.random_permutation([*range(1, problem.dimension + 1)])
-	print(perm)
-	global_update_pheromone(problem,pheromone_map,perm, 0.1)
+
+	search(problem, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
 
 
 
