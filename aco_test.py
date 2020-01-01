@@ -1,5 +1,6 @@
 import aco
 import csv
+import utils
 import tsplib95
 from datetime import datetime
 
@@ -36,7 +37,7 @@ def test_aco(file_name, problem, max_iters, num_ants, decay_amount, c_heur, c_lo
 
 
 
-def run_tests(file_name, p):
+def run_tests1(file_name, p):
 	#MAX ITER TESTS
 	test_aco(file_name, p, max_iters=50, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9, number_of_runs=20)
 	test_aco(file_name, p, max_iters=75, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9, number_of_runs=20)
@@ -65,7 +66,7 @@ def run_tests(file_name, p):
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9, number_of_runs=20)
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.2, c_greed=0.9, number_of_runs=20)
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.3, c_greed=0.9, number_of_runs=20)
-	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9, number_of_runs=20)
+	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9, number_of_runs=20) #BEST RESULT
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.5, c_greed=0.9, number_of_runs=20)
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.6, c_greed=0.9, number_of_runs=20)
 
@@ -76,16 +77,30 @@ def run_tests(file_name, p):
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=2.5, number_of_runs=20)
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=3.0, number_of_runs=20)
 
+def run_tests2(file_name, p):
+	#MAX ITER & GREED TESTS
+	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
+	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0,number_of_runs=20)
+	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0,number_of_runs=20)
 
+	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
+	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0,number_of_runs=20)
+	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0,number_of_runs=20)
+
+	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
+	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0, number_of_runs=20)
+	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0, number_of_runs=20)
 
 
 if __name__ == '__main__':
 
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7544.3659
-	run_tests(file_name="ACO_berlin52_sol" + "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_berlin52)
+	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
+	run_tests2(file_name="MAX_ITER_GREED_ACO_berlin52_sol" + "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_berlin52)
 
 	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
 	problem_kroA100.best_known = 21282.0
-	run_tests(file_name="ACO_kroA100_sol"+ "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_kroA100)
+	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_kroA100.dimension + 1, 1)])
+	run_tests2(file_name="MAX_ITER_GREED_kroA100_sol"+ "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_kroA100)
 

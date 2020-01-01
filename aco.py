@@ -68,7 +68,7 @@ def local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_phe
 		pheromone_map[edge_back]	= value
 
 def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
-	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
+	best_path = problem.initial_path
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
 	init_pheromone = 1.0 / (problem.dimension * best_cost)
@@ -94,16 +94,52 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 
 	return best_path, csv_log_str
 
+def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
+	best_path = problem.initial_path
+	best_cost = utils.cost(best_path,problem)
+	initial_cost = best_cost
+	init_pheromone = 1.0 / (problem.dimension * best_cost)
+	pheromone_map = initialise_pheromones(problem, init_pheromone)
+
+	start = timer()
+	print("Initial cost: {}".format(best_cost))
+	print("ACO: ", end="")
+	for _ in range(0, max_iters):
+		print("#", end="")
+		for _ in range(0, num_ants):
+			candidate_path = stepwise_const(problem,pheromone_map,c_heur,c_greed)
+			candidate_cost = utils.cost(candidate_path,problem)
+			ls_path = vns.local_search(problem_berlin52,best_path,10,6)
+			ls_cost = utils.cost(ls_path, problem)
+
+			if ls_cost < candidate_cost:
+				candidate_path = ls_path
+				candidate_cost = ls_cost
+
+			if candidate_cost < best_cost:
+				best_path = candidate_path
+				best_cost = candidate_cost
+				local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
+		global_update_pheromone(problem,pheromone_map,candidate_path,decay_amount)
+
+	end = timer()
+	elapsedTime = timedelta(seconds=end - start)
+	csv_log_str = utils.simple_log(problem, elapsedTime, best_cost, best_path, initial_cost)
+
+	return best_path, csv_log_str
+
 
 if __name__ == '__main__':
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7544.3659
+	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
 
-	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
-	problem_kroA100.best_known = 21282.0
 
-	x, _= search(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
-	utils.plot_tsp(x,problem_berlin52)
+	s, _= search(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
+	utils.plot_tsp(s,problem_berlin52)
+
+	s, _= acols(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
+	utils.plot_tsp(s,problem_berlin52)
 
 
 
