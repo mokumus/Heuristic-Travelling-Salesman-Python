@@ -97,10 +97,10 @@ if __name__ == '__main__':
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7544.3659
 	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
-	run_tests2(file_name="MAX_ITER_GREED_ACO_berlin52_sol" + "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_berlin52)
+	#run_tests2(file_name="MAX_ITER_GREED_ACO_berlin52_sol" + "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_berlin52)
 
 	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
 	problem_kroA100.best_known = 21282.0
-	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_kroA100.dimension + 1, 1)])
+	problem_kroA100.initial_path = utils.random_permutation([*range(1, problem_kroA100.dimension + 1, 1)])
 	run_tests2(file_name="MAX_ITER_GREED_kroA100_sol"+ "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_kroA100)
 
