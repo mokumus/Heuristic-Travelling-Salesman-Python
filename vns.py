@@ -65,13 +65,8 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 	elapsedTime = timedelta(seconds=end - start)
 	if plot_end_start:
 		snapshot_timer(best_cost, best_path, problem, start)
-	print("\nMinimized cost: {}".format(best_cost))
-	print("Err: %{:.4f}".format(utils.error_rate(problem.best_known, best_cost)))
-	print("Time : {}".format(elapsedTime.total_seconds()))
-	print("Path: {}".format(best_path))
-	print("="*140)
-	print("="*140)
-	csv_log_str = "{:.5f} {:.1f} {:.1f} {:.4f}".format(elapsedTime.total_seconds(), initial_cost, best_cost,utils.error_rate(problem.best_known, best_cost))
+	csv_log_str = utils.simple_log(problem, elapsedTime, best_cost, best_path, initial_cost)
+
 	return best_path, csv_log_str
 
 ## pseudo real-time plotting wrapper for search method
@@ -86,6 +81,6 @@ def snapshot_timer(best_cost, best_path, problem, start):
 if __name__ == '__main__':
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7544.3659
-	search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=False, plot_end_start=False)
+	search(problem_berlin52, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=False, plot_end_start=False)
 
 

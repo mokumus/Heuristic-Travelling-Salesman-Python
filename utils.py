@@ -21,6 +21,16 @@ def cost(path, problem):
 	total_cost += problem.wfunc(path[-1], path[0])	#complete loop
 	return total_cost
 
+def simple_log(problem, elapsedTime, best_cost, best_path, initial_cost):
+	print("\nMinimized cost: {}".format(best_cost))
+	print("Err: %{:.4f}".format(error_rate(problem.best_known, best_cost)))
+	print("Time : {}".format(elapsedTime.total_seconds()))
+	print("Path: {}".format(best_path))
+	print("="*140)
+	print("="*140)
+	str_ = "{:.5f} {:.1f} {:.1f} {:.4f}".format(elapsedTime.total_seconds(), initial_cost, best_cost, error_rate(problem.best_known, best_cost))
+	return str_
+
 def plot_tsp(path, problem, str = ""):
 	# Modified from https://gist.github.com/payoung/6087046
 	cities = []

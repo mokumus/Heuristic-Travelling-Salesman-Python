@@ -59,4 +59,4 @@ if __name__ == '__main__':
 
 	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
 	problem_kroA100.best_known = 21282.0
-	run_tests(file_name="kroA100_sol", p=problem_kroA100)
+	#run_tests(file_name="kroA100_sol", p=problem_kroA100)
