@@ -6,7 +6,7 @@ from datetime import datetime
 
 def test_aco(file_name, problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed, number_of_runs=1):
 	info = [0,float('inf'),0,0,float('inf')]
-	file_path = "results/"
+	file_path = "Table-Info/"
 	file_path +=file_name
 	file_path += ".csv"
 	with open(file_path, 'a', newline='') as file:
