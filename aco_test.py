@@ -13,7 +13,7 @@ def test_aco(file_name, problem, max_iters, num_ants, decay_amount, c_heur, c_lo
 		writer = csv.writer(file)
 		writer.writerow(["Time", "Initial Cost", "Minimized Cost", "Error Rate"])
 		for i in range(0, number_of_runs):
-			_ , csv_str = aco.search(problem, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
+			_ , csv_str = aco.acols(problem, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
 			tmp = csv_str.split()
 			info[0] += float(tmp[0])				#AVG_TIME
 			info[1] =  min(float(tmp[2]),info[1])	#AVG_COST
