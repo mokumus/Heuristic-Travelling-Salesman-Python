@@ -109,7 +109,7 @@ def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_gr
 		for _ in range(0, num_ants):
 			candidate_path = stepwise_const(problem,pheromone_map,c_heur,c_greed)
 			candidate_cost = utils.cost(candidate_path,problem)
-			ls_path = vns.local_search(problem_berlin52,best_path,10,6)
+			ls_path = vns.local_search(problem,best_path,10,6)
 			ls_cost = utils.cost(ls_path, problem)
 
 			if ls_cost < candidate_cost:
