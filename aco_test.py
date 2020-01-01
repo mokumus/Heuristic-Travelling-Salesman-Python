@@ -78,29 +78,42 @@ def run_tests1(file_name, p):
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=3.0, number_of_runs=20)
 
 def run_tests2(file_name, p):
-	#MAX ITER & GREED TESTS
-	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
-	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0,number_of_runs=20)
-	test_aco(file_name, p, max_iters=50, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0,number_of_runs=20)
-
-	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
 	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0,number_of_runs=20)
-	test_aco(file_name, p, max_iters=100, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0,number_of_runs=20)
 
-	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=0.9,number_of_runs=20)
-	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=1.0, number_of_runs=20)
-	test_aco(file_name, p, max_iters=150, num_ants=12, decay_amount=0.1, c_heur=2.5, c_local_pher=0.4, c_greed=3.0, number_of_runs=20)
+
+def main():
+	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
+	problem_berlin52.best_known = 7542
+	run_tests2(file_name="ACO__berlin52", p=problem_berlin52)
+
+	problem_dantzig42 = tsplib95.load_problem('problems/dantzig42.tsp')
+	problem_dantzig42.best_known = 699
+	run_tests2(file_name="ACO__dantzig42", p=problem_dantzig42)
+
+	problem_eil51 = tsplib95.load_problem('problems/eil51.tsp')
+	problem_eil51.best_known = 426
+	run_tests2(file_name="ACO__eil51", p=problem_eil51)
+
+	problem_eil101 = tsplib95.load_problem('problems/eil101.tsp')
+	problem_eil101.best_known = 629
+	run_tests2(file_name="ACO__eil101", p=problem_eil101)
+
+	problem_pr107 = tsplib95.load_problem('problems/pr107.tsp')
+	problem_pr107.best_known = 44303
+	run_tests2(file_name="ACO__pr107", p=problem_pr107)
+
+	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
+	problem_ch130.best_known = 6110
+	run_tests2(file_name="ACO__ch130", p=problem_ch130)
+
+	problem_kroA200 = tsplib95.load_problem('problems/kroA200.tsp')
+	problem_kroA200.best_known = 29368
+	run_tests2(file_name="ACO__kroA200", p=problem_kroA200)
+
+	problem_rat783 = tsplib95.load_problem('problems/rat783.tsp')
+	problem_rat783.best_known = 8806
+	run_tests2(file_name="ACO__rat783", p=problem_rat783)
 
 
 if __name__ == '__main__':
-
-	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
-	problem_berlin52.best_known = 7544.3659
-	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
-	#run_tests2(file_name="MAX_ITER_GREED_ACO_berlin52_sol" + "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_berlin52)
-
-	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
-	problem_kroA100.best_known = 21282.0
-	problem_kroA100.initial_path = utils.random_permutation([*range(1, problem_kroA100.dimension + 1, 1)])
-	run_tests2(file_name="MAX_ITER_GREED_kroA100_sol"+ "_{}".format(datetime.now().strftime("%d-%m-%Y_%I-%M-%S_%p")), p=problem_kroA100)
-
+	main()

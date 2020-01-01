@@ -81,6 +81,9 @@ def snapshot_timer(best_cost, best_path, problem, start):
 if __name__ == '__main__':
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7544.3659
-	search(problem_berlin52, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True, plot_end_start=True)
+	#search(problem_berlin52, neighborhoods=6, max_no_improv=40, max_no_improv_ls=40, plot_progress=True, plot_end_start=True)
 
+	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
+	problem_kroA100.best_known = 21282.0
+	search(problem_kroA100, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True,plot_end_start=True)
 

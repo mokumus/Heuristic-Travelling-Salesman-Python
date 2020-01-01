@@ -1,14 +1,9 @@
-import tsplib95
-import utils
+import vns_test
+import aco_test
 
 def main():
-	problem = tsplib95.load_problem('problems/berlin52.tsp')
+	vns_test.main()
+	aco_test.main()
 
-	my_path = [*range(1, problem.dimension + 1, 1)]
-	r_path = utils.random_permutation(my_path)
-
-	print(utils.cost(r_path, problem))
-	utils.plot_tsp(r_path, problem)
-
-
-if __name__ == '__main__': main()
+if __name__ == '__main__':
+	main()

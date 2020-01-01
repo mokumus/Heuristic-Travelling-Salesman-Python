@@ -138,8 +138,6 @@ if __name__ == '__main__':
 	s, _= search(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
 	utils.plot_tsp(s,problem_berlin52)
 
-	s, _= acols(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
-	utils.plot_tsp(s,problem_berlin52)
 
 
 
