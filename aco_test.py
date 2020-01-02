@@ -82,24 +82,24 @@ def run_tests2(file_name, p):
 def main():
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7542
-	run_tests2(file_name="ACOLS__berlin52", p=problem_berlin52)
+	#run_tests2(file_name="ACOLS__berlin52", p=problem_berlin52)
 
 	problem_dantzig42 = tsplib95.load_problem('problems/dantzig42.tsp')
 	problem_dantzig42.best_known = 699
-	run_tests2(file_name="ACOLS__dantzig42", p=problem_dantzig42)
+	#run_tests2(file_name="ACOLS__dantzig42", p=problem_dantzig42)
 
 	problem_eil51 = tsplib95.load_problem('problems/eil51.tsp')
 	problem_eil51.best_known = 426
-	run_tests2(file_name="ACOLS__eil51", p=problem_eil51)
+	#run_tests2(file_name="ACOLS__eil51", p=problem_eil51)
 
 	problem_eil101 = tsplib95.load_problem('problems/eil101.tsp')
 	problem_eil101.best_known = 629
-	run_tests2(file_name="ACOLS__eil101", p=problem_eil101)
+	#run_tests2(file_name="ACOLS__eil101", p=problem_eil101)
 
 	problem_pr107 = tsplib95.load_problem('problems/pr107.tsp')
 	problem_pr107.best_known = 44303
-	run_tests2(file_name="ACOLS__pr107", p=problem_pr107)
-'''
+	#run_tests2(file_name="ACOLS__pr107", p=problem_pr107)
+
 	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
 	problem_ch130.best_known = 6110
 	run_tests2(file_name="ACOLS__ch130", p=problem_ch130)
@@ -111,7 +111,7 @@ def main():
 	problem_rat783 = tsplib95.load_problem('problems/rat783.tsp')
 	problem_rat783.best_known = 8806
 	run_tests2(file_name="ACOLS__rat783", p=problem_rat783)
-'''
+
 
 if __name__ == '__main__':
 	main()

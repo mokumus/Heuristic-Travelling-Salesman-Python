@@ -2,7 +2,7 @@ import vns_test
 import aco_test
 
 def main():
-	#aco_test.main()
+	aco_test.main()
 	vns_test.main()
 
 
