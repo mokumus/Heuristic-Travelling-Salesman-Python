@@ -44,7 +44,7 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 		utils.plot_tsp(best_path, problem, title)
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
-	print("VNS: ", end="")
+	print("AVNS: ", end="")
 	while count <= max_no_improv:
 		count += 1
 		for i in range(0, neighborhoods): # Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's

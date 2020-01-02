@@ -104,7 +104,7 @@ def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_gr
 
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
-	print("ACO: ", end="")
+	print("ACOLS: ", end="")
 	for _ in range(0, max_iters):
 		for _ in range(0, num_ants):
 			candidate_path = ant_run(problem, pheromone_map, c_heur, c_greed)
