@@ -76,7 +76,7 @@ def run_tests1(file_name, p):
 	test_aco(file_name, p, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=3.0, number_of_runs=20)
 
 def run_tests2(file_name, p):
-	test_aco(file_name, p, max_iters=75, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0,number_of_runs=20)
+	test_aco(file_name, p, max_iters=75, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0,number_of_runs=5)
 
 
 def main():
@@ -102,11 +102,11 @@ def main():
 
 	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
 	problem_ch130.best_known = 6110
-	run_tests2(file_name="ACOLS__ch130", p=problem_ch130)
+	#run_tests2(file_name="ACOLS__ch130", p=problem_ch130)
 
 	problem_kroA200 = tsplib95.load_problem('problems/kroA200.tsp')
 	problem_kroA200.best_known = 29368
-	run_tests2(file_name="ACOLS__kroA200", p=problem_kroA200)
+	#run_tests2(file_name="ACOLS__kroA200", p=problem_kroA200)
 
 	problem_rat783 = tsplib95.load_problem('problems/rat783.tsp')
 	problem_rat783.best_known = 8806
