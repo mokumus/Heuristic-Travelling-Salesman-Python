@@ -55,7 +55,7 @@ def main():
 	problem_pr107 = tsplib95.load_problem('problems/pr107.tsp')
 	problem_pr107.best_known = 44303
 	run_tests(file_name="AVNS__pr107", p=problem_pr107)
-
+'''
 	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
 	problem_ch130.best_known = 6110
 	run_tests(file_name="AVNS__ch130", p=problem_ch130)
@@ -68,7 +68,7 @@ def main():
 	problem_rat783.best_known = 8806
 	run_tests(file_name="AVNS__rat783", p=problem_rat783)
 
-
+'''
 
 if __name__ == '__main__':
 	main()

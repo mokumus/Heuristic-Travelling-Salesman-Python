@@ -79,6 +79,7 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 	print("Initial cost: {}".format(best_cost))
 	print("ACO: ", end="")
 	for _ in range(0, max_iters):
+		print("#", end="")
 		for _ in range(0, num_ants):
 			candidate_path = ant_run(problem, pheromone_map, c_heur, c_greed)
 			candidate_cost = utils.cost(candidate_path,problem)
@@ -95,7 +96,7 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 
 	return best_path, csv_log_str
 
-def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
+def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed, c_ls = 0.4) :
 	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
@@ -105,19 +106,21 @@ def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_gr
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
 	print("ACOLS: ", end="")
-	for _ in range(0, max_iters):
+	for i in range(0, max_iters):
+		print("#", end="")
 		for _ in range(0, num_ants):
 			candidate_path = ant_run(problem, pheromone_map, c_heur, c_greed)
 			candidate_cost = utils.cost(candidate_path,problem)
-			ls_path = vns.local_search(problem,best_path,10,6)
-			ls_cost = utils.cost(ls_path, problem)
+			if i <= int(max_iters*c_ls):
+				ls_path = vns.local_search(problem,best_path,10,6)
+				ls_cost = utils.cost(ls_path, problem)
 
-			if ls_cost < candidate_cost:
-				candidate_path = ls_path
-				candidate_cost = ls_cost
+				if ls_cost < candidate_cost:
+					candidate_path = ls_path
+					candidate_cost = ls_cost
 
 			if candidate_cost < best_cost:
-				print("#", end="")
+
 				best_path = candidate_path
 				best_cost = candidate_cost
 			local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
@@ -136,7 +139,11 @@ if __name__ == '__main__':
 	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
 
 
-	s, _= search(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
+	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
+	problem_ch130.best_known = 6110
+
+
+	s, _= acols(problem_berlin52,  max_iters=100, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0)
 	utils.plot_tsp(s,problem_berlin52)
 
 
