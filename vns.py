@@ -67,7 +67,7 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 
 	return best_path, csv_log_str
 
-def vns_dynamic(problem, c_divr = 0.4, max_iter=20000, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress = False, plot_end_start = False):
+def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_improv=40, max_no_improv_ls=20, plot_progress = False, plot_end_start = False):
 	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)]) # Create a random solution of problem size(number of cities)
 	best_cost = utils.cost(best_path, problem)
 	initial_cost = best_cost

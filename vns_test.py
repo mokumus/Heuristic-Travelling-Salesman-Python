@@ -33,24 +33,24 @@ def test_vns(file_name, problem, number_of_runs = 20, n = 12, mni = 10, mnils = 
 
 def run_tests(file_name, p):
 	#Best scoring variables for berlin52, kroA100
-	test_vns(file_name=file_name, number_of_runs=20, n=8, mni=40, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False, problem=p)
 
 def main():
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
 	problem_berlin52.best_known = 7542
-	run_tests(file_name="AVNS__berlin52", p=problem_berlin52)
+	#run_tests(file_name="AVNS__berlin52", p=problem_berlin52)
 
 	problem_dantzig42 = tsplib95.load_problem('problems/dantzig42.tsp')
 	problem_dantzig42.best_known = 699
-	run_tests(file_name="AVNS__dantzig42", p=problem_dantzig42)
+	#run_tests(file_name="AVNS__dantzig42", p=problem_dantzig42)
 
 	problem_eil51 = tsplib95.load_problem('problems/eil51.tsp')
 	problem_eil51.best_known = 426
-	run_tests(file_name="AVNS__eil51", p=problem_eil51)
+	#run_tests(file_name="AVNS__eil51", p=problem_eil51)
 
 	problem_eil101 = tsplib95.load_problem('problems/eil101.tsp')
 	problem_eil101.best_known = 629
-	run_tests(file_name="AVNS__eil101", p=problem_eil101)
+	#run_tests(file_name="AVNS__eil101", p=problem_eil101)
 
 	problem_pr107 = tsplib95.load_problem('problems/pr107.tsp')
 	problem_pr107.best_known = 44303
