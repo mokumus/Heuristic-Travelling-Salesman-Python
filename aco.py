@@ -69,7 +69,7 @@ def local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_phe
 		pheromone_map[edge_back]	= value
 
 def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
-	best_path = problem.initial_path
+	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
 	init_pheromone = 1.0 / (problem.dimension * best_cost)
@@ -96,7 +96,7 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 	return best_path, csv_log_str
 
 def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
-	best_path = problem.initial_path
+	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
 	init_pheromone = 1.0 / (problem.dimension * best_cost)
