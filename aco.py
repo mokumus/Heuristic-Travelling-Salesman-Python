@@ -41,7 +41,7 @@ def probabilistic_select(choices) :
 def greedy_select(choices) :
 	return max(choices, key=lambda x:x['probability'])['city']  # Choose city with highest probability
 
-def stepwise_const(problem, pheromone_map, c_heur, c_greed) :
+def ant_run(problem, pheromone_map, c_heur, c_greed) :
 	perm = [random.randint(1, problem.dimension)] # Start path at random point
 
 	while len(perm) < problem.dimension :
@@ -55,7 +55,8 @@ def global_update_pheromone(problem, pheromone_map, candidate_path, decay_amount
 	for i in range(0,len(candidate_path)-1):
 		edge_forward = (candidate_path[i], candidate_path[i+1])
 		edge_back    = (candidate_path[i+1], candidate_path[i])
-		value = ((1.0 - decay_amount) * pheromone_map[edge_forward]) + (decay_amount * (1.0 / utils.cost(candidate_path,problem)))
+		value = ((1.0 - decay_amount) * pheromone_map[edge_forward]) \
+				+ (decay_amount * (1.0 / utils.cost(candidate_path,problem)))
 		pheromone_map[edge_forward] = value
 		pheromone_map[edge_back]	= value
 
@@ -68,7 +69,7 @@ def local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_phe
 		pheromone_map[edge_back]	= value
 
 def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
-	best_path = problem.initial_path
+	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
 	init_pheromone = 1.0 / (problem.dimension * best_cost)
@@ -80,12 +81,13 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 	for _ in range(0, max_iters):
 		print("#", end="")
 		for _ in range(0, num_ants):
-			candidate_path = stepwise_const(problem,pheromone_map,c_heur,c_greed)
+			candidate_path = ant_run(problem, pheromone_map, c_heur, c_greed)
 			candidate_cost = utils.cost(candidate_path,problem)
 			if candidate_cost < best_cost:
+				print("#", end="")
 				best_path = candidate_path
 				best_cost = candidate_cost
-				local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
+			local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
 		global_update_pheromone(problem,pheromone_map,candidate_path,decay_amount)
 
 	end = timer()
@@ -94,8 +96,8 @@ def search(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_g
 
 	return best_path, csv_log_str
 
-def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed) :
-	best_path = problem.initial_path
+def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed, c_ls = 0.4) :
+	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)])
 	best_cost = utils.cost(best_path,problem)
 	initial_cost = best_cost
 	init_pheromone = 1.0 / (problem.dimension * best_cost)
@@ -103,23 +105,25 @@ def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_gr
 
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
-	print("ACO: ", end="")
-	for _ in range(0, max_iters):
+	print("ACOLS: ", end="")
+	for i in range(0, max_iters):
 		print("#", end="")
 		for _ in range(0, num_ants):
-			candidate_path = stepwise_const(problem,pheromone_map,c_heur,c_greed)
+			candidate_path = ant_run(problem, pheromone_map, c_heur, c_greed)
 			candidate_cost = utils.cost(candidate_path,problem)
-			ls_path = vns.local_search(problem,best_path,10,6)
-			ls_cost = utils.cost(ls_path, problem)
+			if i <= int(max_iters*c_ls):
+				ls_path = vns.local_search(problem,best_path,10,6)
+				ls_cost = utils.cost(ls_path, problem)
 
-			if ls_cost < candidate_cost:
-				candidate_path = ls_path
-				candidate_cost = ls_cost
+				if ls_cost < candidate_cost:
+					candidate_path = ls_path
+					candidate_cost = ls_cost
 
 			if candidate_cost < best_cost:
+
 				best_path = candidate_path
 				best_cost = candidate_cost
-				local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
+			local_update_pheromone(pheromone_map, candidate_path, c_local_pher, init_pheromone)
 		global_update_pheromone(problem,pheromone_map,candidate_path,decay_amount)
 
 	end = timer()
@@ -135,7 +139,11 @@ if __name__ == '__main__':
 	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
 
 
-	s, _= search(problem_berlin52, max_iters=100, num_ants=10, decay_amount=0.1, c_heur=2.5, c_local_pher=0.1, c_greed=0.9)
+	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
+	problem_ch130.best_known = 6110
+
+
+	s, _= acols(problem_berlin52,  max_iters=100, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0)
 	utils.plot_tsp(s,problem_berlin52)
 
 
