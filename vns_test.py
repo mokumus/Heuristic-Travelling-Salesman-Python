@@ -33,7 +33,7 @@ def test_vns(file_name, problem, number_of_runs = 20, n = 12, mni = 10, mnils = 
 
 def run_tests(file_name, p):
 	#Best scoring variables for berlin52, kroA100
-	test_vns(file_name=file_name, number_of_runs=20, n=6, mni=40, mnils=20, pp=False, pes=False, problem=p)
+	test_vns(file_name=file_name, number_of_runs=10, n=6, mni=40, mnils=20, pp=False, pes=False, problem=p)
 
 def main():
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
