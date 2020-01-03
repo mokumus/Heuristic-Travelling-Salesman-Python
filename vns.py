@@ -47,7 +47,7 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 		utils.plot_tsp(best_path, problem, title)
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
-	print("AVNS: ", end="")
+	print("VNS: ", end="")
 	while count <= max_no_improv:
 		count += 1
 		for i in range(0, neighborhoods): # Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
@@ -59,7 +59,7 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 				count = 0
 				best_path = copy.deepcopy(candidate_path)
 				best_cost = candidate_cost
-				if plot_progress:
+				if plot_progress and i%2==0:
 					snapshot_timer(best_cost, best_path, problem, start)
 				break
 	end = timer()
@@ -70,7 +70,7 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 
 	return best_path, csv_log_str
 
-def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_improv=40, max_no_improv_ls=20, plot_progress = False, plot_end_start = False):
+def avns(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_improv=40, max_no_improv_ls=20, plot_progress = False, plot_end_start = False):
 	best_path = utils.random_permutation([*range(1, problem.dimension + 1, 1)]) # Create a random solution of problem size(number of cities)
 	best_cost = utils.cost(best_path, problem)
 	initial_cost = best_cost
@@ -81,7 +81,7 @@ def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_
 		utils.plot_tsp(best_path, problem, title)
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
-	print("VNS: ", end="")
+	print("AVNS: ", end="")
 	while count <= max_no_improv and m < max_iter:
 
 		for i in range(0, neighborhoods):  # Generate neighbor, a neighborhood is a permutation that you can access in n number of two-opt's
@@ -110,9 +110,6 @@ def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_
 	return best_path, csv_log_str
 
 
-
-
-
 ## pseudo real-time plotting wrapper for search method
 def snapshot_timer(best_cost, best_path, problem, start):
 	end = timer()
@@ -124,10 +121,23 @@ def snapshot_timer(best_cost, best_path, problem, start):
 
 if __name__ == '__main__':
 	problem_berlin52 = tsplib95.load_problem('problems/berlin52.tsp')
-	problem_berlin52.best_known = 7544.3659
-	vns_dynamic(problem_berlin52, c_divr=0.4, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True, plot_end_start=True)
+	problem_berlin52.best_known = 7542
 
-	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
-	problem_kroA100.best_known = 21282.0
-	#search(problem_kroA100, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True,plot_end_start=True)
+	path1 = search(problem_berlin52,
+				   neighborhoods=6,
+				   max_no_improv=40,
+				   max_no_improv_ls=20,
+				   plot_progress=False,
+				   plot_end_start=True)
+
+	path2 = avns(problem_berlin52,
+				   c_divr= 0.4,
+				   neighborhoods=6,
+				   max_no_improv=40,
+				   max_no_improv_ls=20,
+				   plot_progress=False,
+				   plot_end_start=True)
+
+
+
 

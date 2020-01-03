@@ -12,7 +12,7 @@ def test_vns(file_name, problem, number_of_runs = 20, n = 12, mni = 10, mnils = 
 		writer = csv.writer(file)
 		writer.writerow(["Time", "Initial Cost", "Minimized Cost", "Error Rate"])
 		for i in range(0, number_of_runs):
-			_ , csv_str = vns.vns_dynamic(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
+			_ , csv_str = vns.avns(problem, neighborhoods=n, max_no_improv=mni, max_no_improv_ls=mnils, plot_progress=pp, plot_end_start=pes)
 			tmp = csv_str.split()
 			info[0] += float(tmp[0])				#AVG_TIME
 			info[1] =  min(float(tmp[2]),info[1])	#AVG_COST

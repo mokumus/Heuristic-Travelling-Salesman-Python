@@ -136,12 +136,27 @@ def acols(problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_gr
 
 if __name__ == '__main__':
 	problem_berlin52 = load_problem('problems/berlin52.tsp')
-	problem_berlin52.best_known = 7544.3659
-	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
+	problem_berlin52.best_known = 7542
 
-	#s, _= search(problem_rat783,  max_iters=100, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0)
-	#utils.plot_tsp(s,problem_rat783)
+	path1, _= search(problem_berlin52,
+				 max_iters=100,
+				 num_ants=10,
+				 decay_amount=0.4,
+				 c_heur=3.0,
+				 c_local_pher=0.4,
+				 c_greed=1.0)
 
+	utils.plot_tsp(path1,problem_berlin52)
+
+	path2, _= acols(problem_berlin52,
+				 max_iters=100,
+				 num_ants=10,
+				 decay_amount=0.4,
+				 c_heur=3.0,
+				 c_local_pher=0.4,
+				 c_greed=1.0)
+
+	utils.plot_tsp(path2, problem_berlin52)
 
 
 
