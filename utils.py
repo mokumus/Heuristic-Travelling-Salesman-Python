@@ -1,7 +1,9 @@
 import copy
-import random
 import math
+import random
+
 import matplotlib.pyplot as plt
+
 
 def error_rate(accepted, experimental):
 	return math.fabs(accepted - experimental) / accepted * 100

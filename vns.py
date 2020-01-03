@@ -1,9 +1,12 @@
 import copy
-import utils
-import tsplib95
 import random
-from timeit import default_timer as timer
 from datetime import timedelta
+from timeit import default_timer as timer
+
+import tsplib95
+
+import utils
+
 
 ## Reverse path between two random points
 def stochastic_two_opt(path):

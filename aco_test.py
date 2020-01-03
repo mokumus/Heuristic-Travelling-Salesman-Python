@@ -1,6 +1,7 @@
-import aco
 import csv
 import tsplib95
+import aco
+
 
 def test_aco(file_name, problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed, number_of_runs=1):
 	info = [0,float('inf'),0,0,float('inf')]

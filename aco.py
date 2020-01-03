@@ -1,9 +1,12 @@
 import random
+from datetime import timedelta
+from timeit import default_timer as timer
+
+import tsplib95
+
 import utils
 import vns
-import tsplib95
-from timeit import default_timer as timer
-from datetime import timedelta
+
 
 def initialise_pheromones(problem, init_pher) :
 	pheromone_map = {}
@@ -138,13 +141,12 @@ if __name__ == '__main__':
 	problem_berlin52.best_known = 7544.3659
 	problem_berlin52.initial_path = utils.random_permutation([*range(1, problem_berlin52.dimension + 1, 1)])
 
+	sol = tsplib95.load_solution("problems/berlin52.opt.tour")
+	print(sol.tours[0])
+	print(utils.cost(sol.tours[0],problem_berlin52))
 
-	problem_ch130 = tsplib95.load_problem('problems/ch130.tsp')
-	problem_ch130.best_known = 6110
-
-
-	s, _= acols(problem_berlin52,  max_iters=100, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0)
-	utils.plot_tsp(s,problem_berlin52)
+	#s, _= search(problem_rat783,  max_iters=100, num_ants=10, decay_amount=0.4, c_heur=3.0, c_local_pher=0.4, c_greed=1.0)
+	#utils.plot_tsp(s,problem_rat783)
 
 
 

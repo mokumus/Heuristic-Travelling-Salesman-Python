@@ -1,6 +1,7 @@
-import vns
 import csv
 import tsplib95
+import vns
+
 
 def test_vns(file_name, problem, number_of_runs = 20, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
 	info = [0,float('inf'),0,0,float('inf')]

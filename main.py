@@ -1,5 +1,5 @@
-import vns_test
 import aco_test
+import vns_test
 
 def main():
 	vns_test.main()
