@@ -1,10 +1,13 @@
 import csv
+from typing import List, Union
+
 from tsplib95 import load_problem
+
 import aco
 
 
 def test_aco(file_name, problem, max_iters, num_ants, decay_amount, c_heur, c_local_pher, c_greed, number_of_runs=1):
-	info = [0,float('inf'),0,0,float('inf')]
+	info: List[Union[int, float]] = [0,float('inf'),0,0,float('inf')]
 	file_path = "Table-Info/"
 	file_path +=file_name
 	file_path += ".csv"

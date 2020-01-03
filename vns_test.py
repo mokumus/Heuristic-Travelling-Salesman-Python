@@ -1,10 +1,13 @@
 import csv
+from typing import List, Union
+
 from tsplib95 import load_problem
+
 import vns
 
 
 def test_vns(file_name, problem, number_of_runs = 20, n = 12, mni = 10, mnils = 65, pp=False, pes=False):
-	info = [0,float('inf'),0,0,float('inf')]
+	info: List[Union[int, float]] = [0,float('inf'),0,0,float('inf')]
 	file_path = "Table-Info/"
 	file_path +=file_name
 	file_path += ".csv"

@@ -1,8 +1,7 @@
 from copy import deepcopy
 from math import fabs
 from random import randint
-from matplotlib.pyplot import xlim, plot, arrow, show, title, ylim
-
+#from matplotlib.pyplot import xlim, plot, arrow, show, title, ylim
 
 def error_rate(accepted, experimental):
 	return fabs(accepted - experimental) / accepted * 100
@@ -32,8 +31,8 @@ def simple_log(problem, elapsedTime, best_cost, best_path, initial_cost):
 	str_ = "{:.5f} {:.1f} {:.1f} {:.4f}".format(elapsedTime.total_seconds(), initial_cost, best_cost, error_rate(problem.best_known, best_cost))
 	return str_
 
+'''
 def plot_tsp(path, problem, str_ =""):
-	# Modified from https://gist.github.com/payoung/6087046
 	cities = []
 	x = []
 	y = []
@@ -64,3 +63,4 @@ def plot_tsp(path, problem, str_ =""):
 	ylim(0, max(y) * 1.1)
 	show()
 
+'''

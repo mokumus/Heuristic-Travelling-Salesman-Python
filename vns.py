@@ -42,9 +42,6 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 	best_cost = utils.cost(best_path, problem)
 	initial_cost = best_cost
 	count = 0
-	if plot_end_start:
-		title = "Cost: {}, Time: {}, Err: %{:.4f}".format(best_cost, 0.0, utils.error_rate(problem.best_known, best_cost))
-		utils.plot_tsp(best_path, problem, title)
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
 	print("AVNS: ", end="")
@@ -59,13 +56,9 @@ def search(problem, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot
 				count = 0
 				best_path = copy.deepcopy(candidate_path)
 				best_cost = candidate_cost
-				if plot_progress:
-					snapshot_timer(best_cost, best_path, problem, start)
 				break
 	end = timer()
 	elapsedTime = timedelta(seconds=end - start)
-	if plot_end_start:
-		snapshot_timer(best_cost, best_path, problem, start)
 	csv_log_str = utils.simple_log(problem, elapsedTime, best_cost, best_path, initial_cost)
 
 	return best_path, csv_log_str
@@ -76,9 +69,7 @@ def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_
 	initial_cost = best_cost
 	count = 0
 	m = 0
-	if plot_end_start:
-		title = "Cost: {}, Time: {}, Err: %{:.4f}".format(best_cost, 0.0, utils.error_rate(problem.best_known, best_cost))
-		utils.plot_tsp(best_path, problem, title)
+
 	start = timer()
 	print("Initial cost: {}".format(best_cost))
 	print("VNS: ", end="")
@@ -90,7 +81,6 @@ def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_
 				candidate_path = stochastic_two_opt(best_path)
 			else:
 				candidate_path = copy.deepcopy(best_path)
-
 			candidate_path = local_search(problem, candidate_path, max_no_improv_ls, i)
 			candidate_cost = utils.cost(candidate_path, problem)
 			if candidate_cost < best_cost:
@@ -99,27 +89,12 @@ def vns_dynamic(problem, c_divr = 0.4, max_iter=60000, neighborhoods=12, max_no_
 				m -= max_no_improv_ls
 				best_path = copy.deepcopy(candidate_path)
 				best_cost = candidate_cost
-				if plot_progress:
-					snapshot_timer(best_cost, best_path, problem, start)
 				break
 	end = timer()
 	elapsedTime = timedelta(seconds=end - start)
-	if plot_end_start:
-		snapshot_timer(best_cost, best_path, problem, start)
+
 	csv_log_str = utils.simple_log(problem, elapsedTime, best_cost, best_path, initial_cost)
 	return best_path, csv_log_str
-
-
-
-
-
-## pseudo real-time plotting wrapper for search method
-def snapshot_timer(best_cost, best_path, problem, start):
-	end = timer()
-	elapsedTime = timedelta(seconds=end - start)
-	title = "Cost: {}, Time: {}, Err: %{:.4f}".format(best_cost, elapsedTime.total_seconds(),
-													  utils.error_rate(problem.best_known, best_cost))
-	utils.plot_tsp(best_path, problem, title)
 
 
 if __name__ == '__main__':
@@ -127,7 +102,4 @@ if __name__ == '__main__':
 	problem_berlin52.best_known = 7544.3659
 	vns_dynamic(problem_berlin52, c_divr=0.4, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True, plot_end_start=True)
 
-	problem_kroA100 = tsplib95.load_problem('problems/kroA100.tsp')
-	problem_kroA100.best_known = 21282.0
-	#search(problem_kroA100, neighborhoods=6, max_no_improv=40, max_no_improv_ls=20, plot_progress=True,plot_end_start=True)
 
